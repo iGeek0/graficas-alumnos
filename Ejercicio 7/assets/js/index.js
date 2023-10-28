@@ -1,13 +1,13 @@
 console.log("Entro a index.js");
 //  EDONPINT: https://dev4humans.com.mx/api/Clases/ventas_libros
 const tbody = document.getElementById('tbody');
-fetch("https://dev4humans.com.mx/api/Clases/personajes")
-    .then(response => response.json())
+axios.get('https://dev4humans.com.mx/api/Clases/personajes')
     .then(datosApi => {
+        console.log(datosApi);
         const ctx = document.getElementById('myChart');
 
-        const labels = datosApi.data.labels;
-        const data = datosApi.data.data;
+        const labels = datosApi.data.data.labels;
+        const data = datosApi.data.data.data;
 
         // Creacion de graficas
         new Chart(ctx, {
@@ -47,17 +47,7 @@ fetch("https://dev4humans.com.mx/api/Clases/personajes")
         tbody.innerHTML = "";
         labels.forEach((label, index) => {
             console.log(index);
-            // Creditos: luis Manuel Valenzuela, con if ternarion
-            // tbody.innerHTML += `
-            // <tr ${data[index] > 50 ? 'class="table-danger fw-bold"' : ''}>
-            //     <td>${index + 1}</td>
-            //     <td>${label}</td>
-            //     <td>${data[index]}</td>
-            // </tr>
-            // `;
-
-            // Usando createElement
-            const tr = document.createElement("tr"); // <tr>...</tr>
+            const tr = document.createElement("tr");
             if (data[index] > 50) {
                 tr.classList.add("table-danger");
                 tr.classList.add("fw-bold");
@@ -77,6 +67,32 @@ fetch("https://dev4humans.com.mx/api/Clases/personajes")
         console.log("Promedio", data[1]);
 
 
+    })
+    .catch(error => {
+        console.log("axios error", error);
     });
+
+//  Usando fetch
+// fetch("https://dev4humans.com.mx/api/Clases/personajes")
+//     .then(response => response.json())
+//     .then(datosApi => {
+//         console.log("Respuesta desde fetch", datosApi);
+//     });
+
+// Usando axios
+// axios.get("https://dev4humans.com.mx/api/Clases/personajes")
+//     .then(datosApi => {
+//         console.log("Respuesta desde axios", datosApi.data);
+//     });
+
+
+// mandar headers con axios
+// const headers = { "Authorization": "9faa4f2eed9b6c5f9a748d54ed32cc90" };
+// axios.get("https://dev4humans.com.mx/api/Clases/ventas_variadas", {
+//     headers: headers
+// })
+//     .then(datosApi => {
+//         console.log("Respuesta desde axios header", datosApi.data);
+//     });
 
 
